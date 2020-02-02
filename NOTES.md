@@ -26,3 +26,11 @@ Customizing HTTP Headers
   - Go will attempt to sniff the response body with `http.DetectContentType()`.
   - If detection fails, Go will set default response header `Content-Type: application/octet-stream`.
   - `http.DetectContentType()` cannot distinguish JSON from plain text, so for JSON response body, use `w.Header().Set("Content-Type", "application/json")`.
+
+URL Query Strings
+- extract query parameters from URL using ` r.URL.Query().Get()` with the desired key - returns as type `string`
+- use `strconv.Atoi()` to cast `string` to `integer`
+- `http.ResponseWriter` implements the `io.Writer` interface
+  ```
+  func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
+  ```
