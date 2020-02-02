@@ -47,3 +47,7 @@ HTML Templating and Composition
 Serving Static Files
 - use `http.FileServer` handler to serve files over HTTP from a specific directory.
 - use `http.StripPrefix()` to strip leading characters from URL path before passing to `http.FileServer`.
+
+Requests Are Handled Concurrently
+- all incoming HTTP requests are served in their own goroutines.
+- need to guard against race conditions when accessing shared resources from handlers.
