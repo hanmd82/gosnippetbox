@@ -35,5 +35,11 @@ URL Query Strings
   func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
   ```
 
-HTML Templating and Inheritance
+HTML Templating and Composition
 - package `html/template` provides functions for safely parsing and rendering HTML templates.
+- use action `{{define "<template-name>"}}...{{end}}` to define distinct named templates.
+- use action `{{template "<template-name>" .}}` to invoke named templates, passing in the current context.
+- benefits of template composition with layouts and partials:
+  - cleanly define the page-specific content in individual files.
+  - control which `layout` template the page uses.
+  - use `partials` to share and reuse code in different pages or layouts.
