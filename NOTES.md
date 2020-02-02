@@ -43,3 +43,7 @@ HTML Templating and Composition
   - cleanly define the page-specific content in individual files.
   - control which `layout` template the page uses.
   - use `partials` to share and reuse code in different pages or layouts.
+
+Serving Static Files
+- use `http.FileServer` handler to serve files over HTTP from a specific directory.
+- use `http.StripPrefix()` to strip leading characters from URL path before passing to `http.FileServer`.
