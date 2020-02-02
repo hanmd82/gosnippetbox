@@ -13,3 +13,10 @@ Based on https://lets-go.alexedwards.net/.
   - `ui/html`: templates with filename convention `<name>.<role>.tmpl`, where `role` can be `page`, `partial` or `layout`.
 
 Reference: https://peter.bourgon.org/go-best-practices-2016/#repository-structure
+
+---
+
+## Run
+```
+$ go run ./cmd/web -addr=":4000"
+```

@@ -51,3 +51,14 @@ Serving Static Files
 Requests Are Handled Concurrently
 - all incoming HTTP requests are served in their own goroutines.
 - need to guard against race conditions when accessing shared resources from handlers.
+
+---
+
+### Chapter 3
+Managing Configuration Settings
+- Command-line Flags: common and idiomatic way to manage configuration settings
+- provide an explicit and documented interface between the application and its operating configuration
+- alternatively, store configuration settings in environment variables and access them directly from application by using the `os.Getenv()` function
+  ```
+  addr := os.Getenv("SNIPPETBOX_ADDR")
+  ```
