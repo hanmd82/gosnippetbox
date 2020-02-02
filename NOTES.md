@@ -34,3 +34,6 @@ URL Query Strings
   ```
   func Fprintf(w io.Writer, format string, a ...interface{}) (n int, err error)
   ```
+
+HTML Templating and Inheritance
+- package `html/template` provides functions for safely parsing and rendering HTML templates.

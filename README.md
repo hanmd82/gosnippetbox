@@ -7,8 +7,9 @@ Based on https://lets-go.alexedwards.net/.
 
 ## Directory Structure
 
-- `cmd` directory contains application-specific code for executable applications.
-- `pkg` directory contains non-application-specific code, such as validation helpers and database models.
-- `ui` directory contains user-interface assets, such as HTML templates and static files, e.g CSS, images.
+- `cmd`: application-specific code for executable applications.
+- `pkg`: non-application-specific code, such as validation helpers and database models.
+- `ui`: user-interface assets, such as HTML templates and static files, e.g CSS, images.
+  - `ui/html`: templates with filename convention `<name>.<role>.tmpl`, where `role` can be `page`, `partial` or `layout`.
 
 Reference: https://peter.bourgon.org/go-best-practices-2016/#repository-structure
