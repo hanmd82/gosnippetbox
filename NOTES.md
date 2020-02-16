@@ -62,3 +62,9 @@ Managing Configuration Settings
   ```
   addr := os.Getenv("SNIPPETBOX_ADDR")
   ```
+
+Leveled Logging
+- use `log.New` to define custom logger with arguments (1) destination, (2) prefix, (3) flags.
+- custom loggers created by `log.New()` are concurrency-safe.
+- initialize a new struct `http.Server` to use the custom errorLog logger.
+- recommended to log output to standard streams and redirect the output to a file at runtime.
