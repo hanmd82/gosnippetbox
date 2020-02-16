@@ -68,3 +68,8 @@ Leveled Logging
 - custom loggers created by `log.New()` are concurrency-safe.
 - initialize a new struct `http.Server` to use the custom errorLog logger.
 - recommended to log output to standard streams and redirect the output to a file at runtime.
+
+Dependency Injection
+- how to make any dependency available to handlers?
+- inject dependencies into handlers to make code more explicit, less error-prone and easier to unit test.
+- one approach can be to put dependencies into a custom `application` struct, and define handle functions as methods against `application`
