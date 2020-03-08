@@ -73,3 +73,86 @@ Dependency Injection
 - how to make any dependency available to handlers?
 - inject dependencies into handlers to make code more explicit, less error-prone and easier to unit test.
 - one approach can be to put dependencies into a custom `application` struct, and define handle functions as methods against `application`
+
+---
+
+### Chapter 4
+
+Database-Driven Responses, using PostgreSQL
+
+- Create `snippetbox` database, and `snippets` table with index on `created_at` field
+
+```sql
+$ psql -h localhost -p 5432 -d postgres
+
+CREATE DATABASE snippetbox ENCODING UTF8;
+psql> \c snippetbox
+-- You are now connected to database "snippetbox" as user "mhan".
+
+CREATE TABLE snippets(
+  id SERIAL NOT NULL PRIMARY KEY,
+  title VARCHAR(100) NOT NULL,
+  content TEXT NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  expires_at TIMESTAMP NOT NULL
+);
+CREATE INDEX idx_snippets_created_at ON snippets(created_at);
+
+psql> \d snippets
+--                                         Table "public.snippets"
+--    Column   |            Type             | Collation | Nullable |               Default
+-- ------------+-----------------------------+-----------+----------+--------------------------------------
+--  id         | integer                     |           | not null | nextval('snippets_id_seq'::regclass)
+--  title      | character varying(100)      |           | not null |
+--  content    | text                        |           | not null |
+--  created_at | timestamp without time zone |           | not null |
+--  expires_at | timestamp without time zone |           | not null |
+-- Indexes:
+--     "snippets_pkey" PRIMARY KEY, btree (id)
+--     "idx_snippets_created_at" btree (created_at)
+```
+
+- Seed example data
+```sql
+INSERT INTO snippets (title, content, created_at, expires_at) VALUES (
+    'An old silent pond',
+    'An old silent pond...\nA frog jumps into the pond,\nsplash! Silence again.\n\n– Matsuo Bashō',
+    now() at time zone 'utc',
+    now() at time zone 'utc' + 365 * INTERVAL '1 day'
+);
+
+INSERT INTO snippets (title, content, created_at, expires_at) VALUES (
+    'Over the wintry forest',
+    'Over the wintry\nforest, winds howl in rage\nwith no leaves to blow.\n\n– Natsume Soseki',
+    now() at time zone 'utc',
+    now() at time zone 'utc' + 365 * INTERVAL '1 day'
+);
+
+INSERT INTO snippets (title, content, created_at, expires_at) VALUES (
+    'First autumn morning',
+    'First autumn morning\nthe mirror I stare into\nshows my father''s face.\n\n– Murakami Kijo',
+    now() at time zone 'utc',
+    now() at time zone 'utc' + 7 * INTERVAL '1 day'
+);
+```
+
+- Create new user `web` and grant access to `snippets` table
+```sql
+CREATE USER web WITH PASSWORD 'pass';
+GRANT SELECT,INSERT,UPDATE ON snippets TO web;
+psql> \dp
+--                                    Access privileges
+--  Schema |      Name       |   Type   | Access privileges | Column privileges | Policies
+-- --------+-----------------+----------+-------------------+-------------------+----------
+--  public | snippets        | table    | mhan=arwdDxt/mhan+|                   |
+--         |                 |          | web=arw/mhan      |                   |
+--  public | snippets_id_seq | sequence |                   |                   |
+-- (2 rows)
+```
+
+- Verify permissions of user `web`
+```sql
+$ psql -U web -d snippetbox
+DROP TABLE snippets;
+-- ERROR:  must be owner of table snippets
+```
